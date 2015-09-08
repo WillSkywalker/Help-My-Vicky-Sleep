@@ -23,7 +23,7 @@ header_info = {
 
 def get_page(url=None):
     s = requests.session()
-    # login_data = {'email': 'cxbats@gmail.com', 'password': '3026954', }
+    # login_data = {'email': 'cxbats@gmail.com', 'password': '', }
     # print s.post('http://www.zhihu.com/login', login_data, headers=header_info)
 
     r = s.get(url) if url else s.get('http://www.zhihu.com/people/ji-rou-wei-de-e-yu-pi-dai') #s.get('http://www.zhihu.com/people/ji-rou-wei-de-e-yu-pi-dai')
