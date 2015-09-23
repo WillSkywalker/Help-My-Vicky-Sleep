@@ -38,29 +38,29 @@ def get_page(s, id_name=None):
     r = s.get('http://www.zhihu.com/people/'+id_name) if id_name else s.get('http://www.zhihu.com/people/ji-rou-wei-de-e-yu-pi-dai') #s.get('http://www.zhihu.com/people/Luke-Skywalker')
     # print r.content
     soup = BeautifulSoup(r.content, 'html.parser')
-    timestamp = soup('span','zm-profile-setion-time zg-gray zg-right')[0][0]
-    title = soup('a','question_link')[0].content[0]
+    timestamp = soup('span','zm-profile-setion-time zg-gray zg-right')[0].contents[0]
+    title = soup('a','question_link')[0].contents[0]
     content = soup('div','zh-summary summary clearfix')[0].get_text(strip=True)
-    fhand = open('example.htm', 'w')
-    fhand.write(r.content)
-    fhand.close
-    return r.content
+    # fhand = open('example.htm', 'w')
+    # fhand.write(r.content)
+    # fhand.close
+    return (timestamp, title, content)
 
 
 def main():
     s = requests.session()
-    passwd = raw_input('Password: ')
-    login_zhihu(s, passwd)
+    # passwd = raw_input('Password: ')
+    # login_zhihu(s, passwd)
     old_page = get_page(s)
     fhand = open('times.txt', 'r+')
     while True:
         new_page = get_page(s)
-        if new_page == old_page:
+        if new_page[-1] == old_page[-1]:
             print 'Nothing new...'
         else:
             old_page = new_page
             print 'A new status detected at: [%s]' % time.ctime()
-            fhand.write(time.ctime()+'\n')
+            fhand.write(time.ctime()+'\n'+'\n'.join(new_page)+'\n==================================\n\n\n')
         time.sleep(30)
 
 
